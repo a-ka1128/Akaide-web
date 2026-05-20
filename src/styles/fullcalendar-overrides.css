@@ -1,0 +1,125 @@
+/*
+ * FullCalendar의 기본 톤(파랑/보라/굵은 보더)을 우리 무채색 톤으로 덮어쓴다.
+ * 이 파일은 캘린더 페이지에서만 import 되어 영향 범위를 작게 유지한다.
+ */
+
+.fc {
+  --fc-border-color: var(--color-border);
+  --fc-page-bg-color: var(--color-surface);
+  --fc-neutral-bg-color: var(--color-line);
+  --fc-today-bg-color: rgba(24, 24, 27, 0.04);
+  --fc-event-bg-color: var(--color-brand);
+  --fc-event-border-color: var(--color-brand);
+  --fc-event-text-color: #ffffff;
+  --fc-button-bg-color: var(--color-surface);
+  --fc-button-border-color: var(--color-border);
+  --fc-button-text-color: var(--color-text);
+  --fc-button-hover-bg-color: var(--color-line);
+  --fc-button-hover-border-color: var(--color-border);
+  --fc-button-active-bg-color: var(--color-brand);
+  --fc-button-active-border-color: var(--color-brand);
+  --fc-list-event-hover-bg-color: var(--color-line);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+}
+
+/* 툴바 — 위 아래 여백 줄여서 캘린더 본체에 더 많은 공간 */
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 12px;
+}
+
+/* 상단 타이틀 (예: "2026년 5월") */
+.fc .fc-toolbar-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* 상단 버튼 (월/주/일, 이전/다음, 오늘) */
+.fc .fc-button {
+  text-transform: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  color: #ffffff;
+}
+
+.fc .fc-button:focus {
+  box-shadow: none;
+}
+
+/* 요일 헤더 */
+.fc .fc-col-header-cell {
+  background: var(--color-line);
+  font-weight: 500;
+  padding: 10px 0;
+}
+
+.fc .fc-col-header-cell-cushion {
+  color: var(--color-subtle);
+  text-decoration: none;
+  font-size: 12.5px;
+}
+
+/* 날짜 숫자 */
+.fc .fc-daygrid-day-number {
+  font-size: 12.5px;
+  color: var(--color-subtle);
+  padding: 8px 10px;
+  text-decoration: none;
+}
+
+/* 월 뷰 셀 최소 높이 — 더 넓고 시원하게 */
+.fc .fc-daygrid-day-frame {
+  min-height: 110px;
+}
+
+/* 오늘 강조 — 배경 약간 회색 + 숫자 진하게 */
+.fc .fc-day-today .fc-daygrid-day-number {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+/* 이벤트 (일정 박스) */
+.fc .fc-event {
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 1px 2px;
+}
+
+.fc .fc-event:hover {
+  filter: brightness(1.1);
+}
+
+/* 완료된 일정은 살짝 흐리게 (extendedProps.completed 로 클래스 부여) */
+.fc .fc-event.akaide-completed {
+  background: var(--color-muted);
+  border-color: var(--color-muted);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* 반복 일정은 다른 톤 (살짝 회색) */
+.fc .fc-event.akaide-repeat {
+  background: var(--color-subtle);
+  border-color: var(--color-subtle);
+}
+
+/* 시간 격자 (주/일 뷰) */
+.fc .fc-timegrid-slot {
+  height: 42px;
+}
+
+.fc .fc-timegrid-axis-cushion,
+.fc .fc-timegrid-slot-label-cushion {
+  font-size: 11.5px;
+  color: var(--color-muted);
+}
