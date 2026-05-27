@@ -1,9 +1,17 @@
+import { Navigate } from 'react-router-dom';
 import { DISCORD_LOGIN_URL } from '../api/auth';
+import { tokenStorage } from '../api/client';
 
 /**
  * 로그인 페이지 — 미니멀.
  */
 export default function LoginPage() {
+  // 이미 로그인된 상태(토큰 보유)면 로그인 폼을 보여주지 않고 홈으로 보낸다.
+  // /login 을 직접 열거나 북마크로 들어와도 "재로그인"처럼 보이지 않도록.
+  if (tokenStorage.get()) {
+    return <Navigate to="/" replace />;
+  }
+
   const handleLogin = () => {
     window.location.href = DISCORD_LOGIN_URL;
   };

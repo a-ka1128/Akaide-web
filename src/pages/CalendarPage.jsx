@@ -163,7 +163,7 @@ export default function CalendarPage() {
           eventClick={handleEventClick}
           eventDrop={handleEventDrop}
           eventResize={handleEventResize}
-          allDaySlot={false}
+          allDaySlot={true}
         />
       </div>
 
@@ -204,12 +204,15 @@ function toEvent(s) {
   const classNames = [];
   if (s.completedAt) classNames.push('akaide-completed');
   if (s.repeat) classNames.push('akaide-repeat');
+  if (s.allDay) classNames.push('akaide-allday');
+  if (s.fromGoogle) classNames.push('akaide-google');
 
   return {
     id: String(s.id),
     title: s.task,
     start: s.targetTime,
     end: s.endTime ?? undefined,
+    allDay: !!s.allDay, // 종일 일정 — FullCalendar 가 시간축 대신 날짜 블록으로 표시
     classNames,
     extendedProps: { raw: s },
   };

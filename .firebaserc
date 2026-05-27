@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "akaide-bot-web",
+    "Akaide": "akaide-bot"
+  },
+  "targets": {},
+  "etags": {}
+}
