@@ -177,9 +177,9 @@ export default function CalendarPage() {
             updateMutation.mutate(
               { id: selected.id, payload },
               {
-                onSuccess: (saved) => {
+                onSuccess: () => {
                   toast.success('저장됐어요');
-                  setSelected(saved);  // 최신 상태로 갱신
+                  setSelected(null); // 저장하면 모달도 닫는다 (완료/삭제와 동일한 UX)
                 },
               }
             )

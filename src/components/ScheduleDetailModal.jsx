@@ -17,10 +17,14 @@ export default function ScheduleDetailModal({
 }) {
   const [task, setTask] = useState(schedule?.task ?? '');
   const [category, setCategory] = useState(schedule?.category ?? 'OTHER');
+  const [alert24h, setAlert24h] = useState(!!schedule?.alert24h);
+  const [alert1h, setAlert1h] = useState(!!schedule?.alert1h);
 
   useEffect(() => {
     setTask(schedule?.task ?? '');
     setCategory(schedule?.category ?? 'OTHER');
+    setAlert24h(!!schedule?.alert24h);
+    setAlert1h(!!schedule?.alert1h);
   }, [schedule?.id]);
 
   if (!schedule) return null;
@@ -35,13 +39,17 @@ export default function ScheduleDetailModal({
 
   const dirty =
     (task.trim() && task !== schedule.task) ||
-    category !== (schedule.category ?? 'OTHER');
+    category !== (schedule.category ?? 'OTHER') ||
+    alert24h !== !!schedule.alert24h ||
+    alert1h !== !!schedule.alert1h;
 
   const handleSave = () => {
     if (!dirty) return;
     const payload = {};
     if (task.trim() && task !== schedule.task) payload.task = task.trim();
     if (category !== (schedule.category ?? 'OTHER')) payload.category = category;
+    if (alert24h !== !!schedule.alert24h) payload.alert24h = alert24h;
+    if (alert1h !== !!schedule.alert1h) payload.alert1h = alert1h;
     onSave(payload);
   };
 
@@ -128,13 +136,30 @@ export default function ScheduleDetailModal({
             </div>
           )}
 
-          <div className="flex items-center gap-4">
-            {schedule.alert24h && (
-              <span className="text-[11.5px] text-subtle">24시간 전 알림</span>
-            )}
-            {schedule.alert1h && (
-              <span className="text-[11.5px] text-subtle">1시간 전 알림</span>
-            )}
+          <div>
+            <div className="text-[11px] text-muted mb-1.5">알림</div>
+            <div className="flex items-center gap-5">
+              <label className="flex items-center gap-2 text-[13px] cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={alert24h}
+                  onChange={(e) => setAlert24h(e.target.checked)}
+                  disabled={busy}
+                  className="w-4 h-4 accent-brand"
+                />
+                <span className="text-subtle">24시간 전</span>
+              </label>
+              <label className="flex items-center gap-2 text-[13px] cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={alert1h}
+                  onChange={(e) => setAlert1h(e.target.checked)}
+                  disabled={busy}
+                  className="w-4 h-4 accent-brand"
+                />
+                <span className="text-subtle">1시간 전</span>
+              </label>
+            </div>
           </div>
 
           {schedule.completedAt && (
@@ -160,7 +185,7 @@ export default function ScheduleDetailModal({
                 disabled={busy}
                 className="text-[12.5px] text-subtle hover:text-text px-3 py-1.5 rounded-lg transition-colors"
               >
-                완료
+                일정 완료
               </button>
             )}
             <button
