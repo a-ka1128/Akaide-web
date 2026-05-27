@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "akaide-bot-web",
+    "default": "akaide-bot",
     "Akaide": "akaide-bot"
   },
   "targets": {},

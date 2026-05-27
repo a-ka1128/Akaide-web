@@ -7,6 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { schedulesApi } from '../api/schedules';
 import ScheduleDetailModal from '../components/ScheduleDetailModal';
+import { colorOf } from '../lib/category';
 import '../styles/fullcalendar-overrides.css';
 
 /**
@@ -207,12 +208,18 @@ function toEvent(s) {
   if (s.allDay) classNames.push('akaide-allday');
   if (s.fromGoogle) classNames.push('akaide-google');
 
+  // 카테고리 색. 완료된 일정은 CSS 에서 회색 + 취소선으로 덮어쓰니까
+  // 여기선 항상 카테고리 색을 일단 넣어둔다.
+  const color = colorOf(s.category);
+
   return {
     id: String(s.id),
     title: s.task,
     start: s.targetTime,
     end: s.endTime ?? undefined,
     allDay: !!s.allDay, // 종일 일정 — FullCalendar 가 시간축 대신 날짜 블록으로 표시
+    backgroundColor: color,
+    borderColor: color,
     classNames,
     extendedProps: { raw: s },
   };

@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { schedulesApi } from '../api/schedules';
 import ConflictModal from './ConflictModal';
 import SuggestionCard from './SuggestionCard';
+import { CATEGORIES } from '../lib/category';
 
 /**
  * 일정 등록 — 자연어 / 직접 입력 두 탭.
@@ -28,6 +29,7 @@ export default function ScheduleCreateForm() {
   const [endTime, setEndTime] = useState('');
   const [alert24h, setAlert24h] = useState(false);
   const [alert1h, setAlert1h] = useState(false);
+  const [category, setCategory] = useState('OTHER');
 
   const [pendingResult, setPendingResult] = useState(null);
 
@@ -60,6 +62,7 @@ export default function ScheduleCreateForm() {
   const clearForm = () => {
     setTask(''); setDate(''); setTime(''); setEndTime('');
     setAlert24h(false); setAlert1h(false);
+    setCategory('OTHER');
   };
 
   const smartMutation = useMutation({
@@ -76,6 +79,7 @@ export default function ScheduleCreateForm() {
         targetTime,
         endTime: endTime ? `${date}T${endTime}:00` : null,
         alert24h, alert1h,
+        category,
       });
     },
     onSuccess: handleResult,
@@ -183,6 +187,38 @@ export default function ScheduleCreateForm() {
               />
             </Field>
           </div>
+          <Field label="카테고리">
+            <div className="flex flex-wrap gap-1.5">
+              {CATEGORIES.map((c) => {
+                const selected = category === c.key;
+                return (
+                  <button
+                    key={c.key}
+                    type="button"
+                    onClick={() => setCategory(c.key)}
+                    disabled={isLoading}
+                    className={
+                      'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] transition-all ' +
+                      (selected
+                        ? 'ring-2 ring-offset-1 ring-offset-surface font-medium'
+                        : 'opacity-55 hover:opacity-100')
+                    }
+                    style={{
+                      background: c.color + (selected ? '' : '33'),
+                      color: selected ? '#18181b' : c.color,
+                      ...(selected ? { '--tw-ring-color': c.color } : {}),
+                    }}
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ background: c.color }}
+                    />
+                    {c.label}
+                  </button>
+                );
+              })}
+            </div>
+          </Field>
           <div className="flex items-center gap-5 mt-1">
             <Checkbox checked={alert24h} onChange={setAlert24h} disabled={isLoading}>
               24시간 전 알림

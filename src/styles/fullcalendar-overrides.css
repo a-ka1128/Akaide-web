@@ -99,18 +99,20 @@
   filter: brightness(1.1);
 }
 
-/* 완료된 일정은 살짝 흐리게 (extendedProps.completed 로 클래스 부여) */
+/* 완료된 일정은 카테고리 색을 덮어 회색 처리.
+   inline style 로 들어온 background/border 를 이기려고 !important 사용. */
 .fc .fc-event.akaide-completed {
-  background: var(--color-muted);
-  border-color: var(--color-muted);
+  background: var(--color-muted) !important;
+  border-color: var(--color-muted) !important;
   text-decoration: line-through;
   opacity: 0.7;
 }
 
-/* 반복 일정은 다른 톤 (살짝 회색) */
-.fc .fc-event.akaide-repeat {
-  background: var(--color-subtle);
-  border-color: var(--color-subtle);
+/* 베이지(와우) 이벤트는 글자색을 어둡게 — 연한 배경 위 흰 글씨가 안 보이는 문제 방지 */
+.fc .fc-event[style*="rgb(229, 211, 179)"],
+.fc .fc-event[style*="#E5D3B3"],
+.fc .fc-event[style*="#e5d3b3"] {
+  color: #3f3f46 !important;
 }
 
 /* 시간 격자 (주/일 뷰) */

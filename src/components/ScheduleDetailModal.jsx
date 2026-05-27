@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { CATEGORIES } from '../lib/category';
 
 /**
  * 일정 상세 모달 — 캘린더에서 일정 클릭 시 표시.
@@ -15,9 +16,11 @@ export default function ScheduleDetailModal({
   schedule, onClose, onSave, onComplete, onDelete, busy,
 }) {
   const [task, setTask] = useState(schedule?.task ?? '');
+  const [category, setCategory] = useState(schedule?.category ?? 'OTHER');
 
   useEffect(() => {
     setTask(schedule?.task ?? '');
+    setCategory(schedule?.category ?? 'OTHER');
   }, [schedule?.id]);
 
   if (!schedule) return null;
@@ -30,11 +33,16 @@ export default function ScheduleDetailModal({
         })
       : '시간 미정';
 
-  const dirty = task.trim() && task !== schedule.task;
+  const dirty =
+    (task.trim() && task !== schedule.task) ||
+    category !== (schedule.category ?? 'OTHER');
 
   const handleSave = () => {
     if (!dirty) return;
-    onSave({ task: task.trim() });
+    const payload = {};
+    if (task.trim() && task !== schedule.task) payload.task = task.trim();
+    if (category !== (schedule.category ?? 'OTHER')) payload.category = category;
+    onSave(payload);
   };
 
   return (
@@ -66,6 +74,41 @@ export default function ScheduleDetailModal({
               disabled={busy}
               className="w-full px-3 py-2 text-[14px] border border-border rounded-lg focus:outline-none focus:border-brand transition-colors"
             />
+          </div>
+
+          <div>
+            <div className="text-[11px] text-muted mb-1.5">카테고리</div>
+            <div className="flex flex-wrap gap-1.5">
+              {CATEGORIES.map((c) => {
+                const selected = category === c.key;
+                return (
+                  <button
+                    key={c.key}
+                    type="button"
+                    onClick={() => setCategory(c.key)}
+                    disabled={busy}
+                    className={
+                      'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] transition-all ' +
+                      (selected
+                        ? 'ring-2 ring-offset-1 ring-offset-surface font-medium'
+                        : 'opacity-55 hover:opacity-100')
+                    }
+                    style={{
+                      background: c.color + (selected ? '' : '33'), // 비선택 시 알파
+                      color: selected ? '#18181b' : c.color,
+                      // 선택 시 ring 색을 카테고리 색으로
+                      ...(selected ? { '--tw-ring-color': c.color } : {}),
+                    }}
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ background: c.color }}
+                    />
+                    {c.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div>
