@@ -5,11 +5,12 @@
  * 색은 캘린더 이벤트 배경 + 모달 컬러 칩에서 같이 사용.
  */
 export const CATEGORIES = [
-  { key: 'SCHOOL', label: '학교',      color: '#EF4444' },
-  { key: 'WORK',   label: '작업',      color: '#22C55E' },
-  { key: 'WOW',    label: '와우',      color: '#E5D3B3' },
-  { key: 'HOBBY',  label: '취미+약속', color: '#C084FC' },
-  { key: 'OTHER',  label: '기타',      color: '#9CA3AF' },
+  { key: 'SCHOOL',   label: '학교',      color: '#EF4444' },
+  { key: 'WORK',     label: '작업',      color: '#22C55E' },
+  { key: 'WOW',      label: '와우',      color: '#E5D3B3' },
+  { key: 'HOBBY',    label: '취미+약속', color: '#C084FC' },
+  { key: 'BIRTHDAY', label: '생일',      color: '#3B82F6' },
+  { key: 'OTHER',    label: '기타',      color: '#9CA3AF' },
 ];
 
 /** key → 메타 (없으면 OTHER 로 fallback) */
