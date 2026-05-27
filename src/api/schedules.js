@@ -25,6 +25,10 @@ export const schedulesApi = {
   complete: (id) =>
     apiClient.post(`/api/schedules/${id}/complete`).then((r) => r.data),
 
+  /** POST /api/schedules/{id}/uncomplete — 완료 취소 (잘못 눌렀을 때 원복) */
+  uncomplete: (id) =>
+    apiClient.post(`/api/schedules/${id}/uncomplete`).then((r) => r.data),
+
   /** DELETE /api/schedules/{id} */
   remove: (id) => apiClient.delete(`/api/schedules/${id}`).then((r) => r.data),
 

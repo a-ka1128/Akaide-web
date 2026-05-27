@@ -13,7 +13,7 @@ import { CATEGORIES } from '../lib/category';
  *  - busy:      boolean
  */
 export default function ScheduleDetailModal({
-  schedule, onClose, onSave, onComplete, onDelete, busy,
+  schedule, onClose, onSave, onComplete, onUncomplete, onDelete, busy,
 }) {
   const [task, setTask] = useState(schedule?.task ?? '');
   const [category, setCategory] = useState(schedule?.category ?? 'OTHER');
@@ -179,7 +179,15 @@ export default function ScheduleDetailModal({
           </button>
 
           <div className="flex items-center gap-1.5">
-            {!schedule.completedAt && (
+            {schedule.completedAt ? (
+              <button
+                onClick={onUncomplete}
+                disabled={busy}
+                className="text-[12.5px] text-subtle hover:text-text px-3 py-1.5 rounded-lg transition-colors"
+              >
+                완료 취소
+              </button>
+            ) : (
               <button
                 onClick={onComplete}
                 disabled={busy}

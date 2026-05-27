@@ -57,6 +57,16 @@ export default function CalendarPage() {
     onError: () => toast.error('완료 처리 실패'),
   });
 
+  const uncompleteMutation = useMutation({
+    mutationFn: (id) => schedulesApi.uncomplete(id),
+    onSuccess: () => {
+      toast.success('완료를 취소했어요');
+      invalidate();
+      setSelected(null);
+    },
+    onError: () => toast.error('완료 취소 실패'),
+  });
+
   const removeMutation = useMutation({
     mutationFn: (id) => schedulesApi.remove(id),
     onSuccess: () => {
@@ -171,7 +181,12 @@ export default function CalendarPage() {
       {selected && (
         <ScheduleDetailModal
           schedule={selected}
-          busy={updateMutation.isPending || completeMutation.isPending || removeMutation.isPending}
+          busy={
+            updateMutation.isPending ||
+            completeMutation.isPending ||
+            uncompleteMutation.isPending ||
+            removeMutation.isPending
+          }
           onClose={() => setSelected(null)}
           onSave={(payload) =>
             updateMutation.mutate(
@@ -185,6 +200,7 @@ export default function CalendarPage() {
             )
           }
           onComplete={() => completeMutation.mutate(selected.id)}
+          onUncomplete={() => uncompleteMutation.mutate(selected.id)}
           onDelete={() => {
             if (confirm(`"${selected.task}" 일정을 삭제할까요?`)) {
               removeMutation.mutate(selected.id);
@@ -212,9 +228,12 @@ function toEvent(s) {
   // 여기선 항상 카테고리 색을 일단 넣어둔다.
   const color = colorOf(s.category);
 
+  // 완료된 일정은 제목 앞에 "[완료]" 를 붙여 색에 더해 텍스트로도 한눈에 구분되게.
+  const title = s.completedAt ? `[완료] ${s.task}` : s.task;
+
   return {
     id: String(s.id),
-    title: s.task,
+    title,
     start: s.targetTime,
     end: s.endTime ?? undefined,
     allDay: !!s.allDay, // 종일 일정 — FullCalendar 가 시간축 대신 날짜 블록으로 표시

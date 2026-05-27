@@ -99,13 +99,20 @@
   filter: brightness(1.1);
 }
 
-/* 완료된 일정은 카테고리 색을 덮어 회색 처리.
-   inline style 로 들어온 background/border 를 이기려고 !important 사용. */
+/* 완료된 일정 — "기타"(회백)와 헷갈리지 않도록 더 진한 회색 + 점선 + 취소선.
+   카테고리 색을 inline style 로 덮어쓴 걸 이겨야 하므로 !important. */
 .fc .fc-event.akaide-completed {
-  background: var(--color-muted) !important;
-  border-color: var(--color-muted) !important;
+  background: #71717a !important;     /* zinc-500: 기타(#9CA3AF, zinc-400) 보다 한 단계 진함 */
+  border: 1.5px dashed #52525b !important; /* 점선으로 "끝났음" 신호 */
+  color: #f4f4f5 !important;
   text-decoration: line-through;
-  opacity: 0.7;
+  text-decoration-thickness: 1.5px;
+  opacity: 0.85;
+}
+
+.fc .fc-event.akaide-completed:hover {
+  filter: none; /* 다른 이벤트의 brightness hover 가 완료 일정엔 안 맞아서 끔 */
+  opacity: 1;
 }
 
 /* 베이지(와우) 이벤트는 글자색을 어둡게 — 연한 배경 위 흰 글씨가 안 보이는 문제 방지 */
